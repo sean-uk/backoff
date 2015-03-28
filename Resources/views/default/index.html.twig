@@ -21,3 +21,10 @@
 </div>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('bundles/app/js/lib/jquery-2.1.3.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/lib/jquery.history.js') }}"></script>
+{% endblock %}
