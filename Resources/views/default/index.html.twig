@@ -1,5 +1,23 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/app/css/main.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block body %}
 <h1>Hello World!</h1>
+
+<div id='ajax-section'>
+    <h2>You are on page</h2>
+    <div class='massive'>1</div>
+</div>
+
+<div id='nav-controls-section'>
+    <form action='/' method='post'>
+        <input type='submit' name='go-back' value='back' />
+        <input type='submit' name='go-forward' value='continue' />
+    </form>
+</div>
+
 {% endblock %}
