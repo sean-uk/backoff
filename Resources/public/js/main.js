@@ -3,6 +3,11 @@ var current_page = 1;
 var page_history = [];
 
 $(document).ready(function(){
+    
+    // bind history.js to state change
+    History.Adapter.bind(window,'statechange',function() {
+        
+    });
 
     // setup the form submission ajax handling
     $('.go').click(function(e,ui){
@@ -32,4 +37,8 @@ function handleResponse(data)
     current_page = data['current_page'];
     
     $('#ajax-section .content').html(current_page);
+    
+    // push new history state
+    var new_url = '?page='+current_page;
+    History.pushState(null,null,new_url);
 }
