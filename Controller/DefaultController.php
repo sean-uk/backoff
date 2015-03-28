@@ -2,6 +2,7 @@
 
 /**
  * @todo a proper submission handler, ie; are there errors? stay on the current page
+ * @todo one was pages you can't back past
  */
 
 namespace AppBundle\Controller;
@@ -15,14 +16,24 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Route("/page/{page_num}/")
      */
-    public function indexAction()
+    public function indexAction(Request $request, $page_num=1)
     {
-        return $this->render('AppBundle:default:index.html.twig');
+        $data = array(
+            'page_num' => is_numeric($page_num)? abs((int)$page_num) : 1
+        );
+        
+        //~ echo('<pre>');
+        //~ print_r($request);
+        //~ echo('</pre>');
+        //~ die();
+        
+        return $this->render('AppBundle:default:index.html.twig', $data);
     }
     
     /**
-     * @Route("/page_history/", name="page-history")current_page
+     * @Route("/page_history/", name="page-history")
      */
     public function pageHistoryAction(Request $request)
     {

@@ -2,7 +2,13 @@
 var current_page = 1;
 var page_history = [];
 
-$(document).ready(function(){
+$(document).ready(function() {
+    
+    // initial page num will be planted in markup if not starting at 1
+    var initial = $('#ajax-section').attr('data-initial-page');
+    if(parseInt(initial)) {
+        current_page = initial;
+    }
     
     // bind history.js to state change
     History.Adapter.bind(window,'statechange',function() {
@@ -39,6 +45,6 @@ function handleResponse(data)
     $('#ajax-section .content').html(current_page);
     
     // push new history state
-    var new_url = '?page='+current_page;
+    var new_url = '/page/'+current_page;
     History.pushState(null,null,new_url);
 }

@@ -8,9 +8,9 @@
 {% block body %}
 <h1>Hello World!</h1>
 
-<div id='ajax-section'>
+<div id='ajax-section' data-initial-page={{ page_num }}>
     <h2>You are on page</h2>
-    <div class='massive content'>1</div>
+    <div class='massive content'>{{ page_num }}</div>
 </div>
 
 <div id='nav-controls-section'>
