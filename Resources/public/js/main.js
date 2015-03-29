@@ -1,6 +1,7 @@
 // what page are we currently on? which have we been on before?
 var current_page = 1;
 var page_history = [];
+var nav_history = [];
 
 $(document).ready(function() {
     
@@ -11,8 +12,16 @@ $(document).ready(function() {
     }
     
     // bind history.js to state change
-    History.Adapter.bind(window,'statechange',function() {
+    History.Adapter.bind(window,'statechange',function(x) {
+        // so we can't trust the browser history, or the url potentially...
+        // need to work things out ourselves, serverside...
         
+        state = History.getState();
+        console.log(state);
+        
+        ajaxUpdate(null);
+        
+        nav_history.push(current_page);
     });
     
     // are they trying to confirm back navigatin
@@ -62,7 +71,9 @@ function ajaxUpdate(direction) {
         'url': '/page_history',
         'data': {
             'direction': direction,
-            'current_page': current_page
+            'current_page': current_page,
+            'request_url': History.getState().url,
+            'navigation_history': JSON.stringify(nav_history)
             },
         'success': handleResponse
     });
@@ -118,6 +129,7 @@ function isNavBackPrompted(selector) {
  */
 function handleResponse(data)
 {
+    var prev_current_page = current_page;
     page_history = data['page_history'];
     current_page = data['current_page'];
     
@@ -126,6 +138,8 @@ function handleResponse(data)
     deWarnify('.go-back');
     
     // push new history state
-    var new_url = '/page/'+current_page;
-    History.pushState(null,null,new_url);
+    if(prev_current_page!==current_page) {
+        var new_url = '/page/'+current_page;
+        History.pushState(null,null,new_url);
+    }
 }
