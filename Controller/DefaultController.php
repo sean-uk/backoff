@@ -56,11 +56,10 @@ class DefaultController extends Controller
                 $request_page = $matches[1];
             }
             
-            // we know: 
-            //      the current page: the last one we sent to the client
-            //      the request page: ie; the page from the history pop
-            //      the nav history: the pages they've been on previously. this is NOT the browser history stack.
-            
+            // so the procedure I think this:
+            //  if no direction is supplied, take the last two steps from the nav history,
+            //  in reverse order to get the direction.
+            //  ... return the page for that, or stay where they are and wait for a backstep confirmation
         }
         
         // build the history
