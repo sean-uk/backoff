@@ -1,0 +1,33 @@
+<?php
+// we know: 
+//      the current page: the last one we sent to the client
+//      the request page: ie; the page from the history pop
+//      the nav history: the pages they've been on previously. this is NOT the browser history stack
+
+// head 3 browser backing on to 2
+current 3
+request 2
+nav_history [1,2,3]
+// can map 3=>2 onto a backstep
+
+// done 3, form back to 2, browser 'back' to 3
+current 2
+request 3
+nav_history [1,2,3,2]
+// 2=>3 maps onto a forward step
+
+// the above, then browser 'forward' back to 2
+current 3
+request 2
+nav_history [1,2,3,2,3]
+// 3=>2 maps onto a backstep
+
+// the above, then form forward back to 3
+current 2
+request 'forward'
+nav_history [1,2,3,2,3,2]
+
+// so the procedure i think to be this:
+//  if no direction is supplied, take the last two steps from the nav history,
+//  in reverse order to get the direction.
+//  ... return the page for that, or stay where they are and wait for a backstep

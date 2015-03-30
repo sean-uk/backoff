@@ -60,6 +60,20 @@ class DefaultController extends Controller
             //  if no direction is supplied, take the last two steps from the nav history,
             //  in reverse order to get the direction.
             //  ... return the page for that, or stay where they are and wait for a backstep confirmation
+            if (count($nav_history)<2) {
+                // @todo! ... is there even any browser nav possible with 0/1 history states?
+            } else {
+                $nh = $nav_history;
+                $last = array_pop($nh);
+                if($request_page>$last) {
+                    $direction = 'forward';
+                }
+                if($request_page<$last) {
+                    $direction = 'back';
+                }
+                //~ print_r("{$last}|{$next_last}|{$direction}");
+                //~ die();
+            }
         }
         
         // build the history
@@ -72,10 +86,11 @@ class DefaultController extends Controller
         }
         $current_page = max(1, $current_page);
         
-        // prepare response
+        // prepare response. we'll have to tell them the direction in case they don't know
         $data = array(
             'page_history' => $history,
-            'current_page' => $current_page
+            'current_page' => $current_page,
+            'direction'    => $direction
         );
         
         $response = new Response();
